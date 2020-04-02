@@ -1,0 +1,4 @@
+*.ico -diff
+*.png -diff
+*.svg -diff
+package-lock.json -diff

@@ -1,0 +1,7 @@
+.idea
+build
+docker
+public
+node_modules
+coverage
+__snapshots__
