@@ -13,4 +13,6 @@ function ControlsPage() {
     );
 }
 
+ControlsPage.displayName = 'ControlsPageContainer';
+
 export default memo(ControlsPage);
