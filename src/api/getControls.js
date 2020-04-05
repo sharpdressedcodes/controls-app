@@ -1,6 +1,18 @@
-import axios from 'axios';
-import config from '../config/main';
+import gql from 'graphql-tag';
 
-export default function getControls() {
-    return axios.get(`http://localhost:${config.server.port}${config.endpoints.api.getControls}`);
-}
+const getControlsQuery = gql`
+    query GetControls {
+        getControls {
+            id
+            type
+            attributes {
+                name
+                type
+                maximumRabiRate
+                polarAngle
+            }
+        }
+    }
+`;
+
+export default getControlsQuery;

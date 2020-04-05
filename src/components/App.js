@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { StyledControlsPage as ControlsPage } from './ControlsPage';
+import ControlsPageContainer from '../containers/ControlsPage';
 import Header from './Header';
 import logo from '../assets/logo.svg';
 
@@ -27,7 +27,7 @@ function App() {
             <Header logoPath={logo} />
             <Container maxWidth={false} className={classes.innerContainer}>
                 <main className={`app ${classes.app}`} id="app">
-                    <ControlsPage />
+                    <ControlsPageContainer />
                 </main>
             </Container>
         </Container>

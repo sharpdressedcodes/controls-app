@@ -1,36 +1,20 @@
-const express = require('express');
-const get = require('lodash.get');
-const cors = require('cors');
-const http = require('http');
-const config = require('../config/main');
-const getControls = require('./api');
-const logErrors = require('./middleware/logErrors');
-const trapErrors = require('./middleware/trapErrors');
+const { ApolloServer } = require('apollo-server');
 
-const app = express();
-const server = http.createServer(app);
-const production = process.env.NODE_ENV === 'production';
+const controlSchema = require('./schemas/controls');
+const controlResolver = require('./resolvers/controls');
 
-app.use(cors());
-app.use(express.static('public', {
-    maxAge: production ? '1y' : 0,
-    index: false
-}));
+/* eslint-disable no-console */
+(async function run(typeDefs, resolvers) {
+    try {
+        const server = new ApolloServer({
+            typeDefs,
+            resolvers
+        });
+        const listener = await server.listen();
 
-app.get(
-    config.endpoints.api.getControls,
-    getControls,
-    logErrors,
-    trapErrors
-);
-
-server.setTimeout(0);
-
-const listener = server.listen(get(config, 'server.port', 3001), err => {
-    if (err) {
-        throw err;
+        console.log(`GraphQL Server ready at ${listener.url}`);
+    } catch (err) {
+        console.error(err);
     }
-
-    // eslint-disable-next-line no-console
-    console.log(`server listening on port ${listener.address().port}`);
-});
+}(controlSchema, controlResolver));
+/* eslint-enable no-console */
