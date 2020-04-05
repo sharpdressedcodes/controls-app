@@ -11,7 +11,7 @@ In the project directory, you can run:
 ### `npm server`
 
 Runs the API server.<br />
-Open [http://localhost:3001/api/controls/get](http://localhost:3001/api/controls/get) to view it in the browser.
+Open [http://localhost:4000](http://localhost:4000), which will open a GraphQL client you can perform queries on.
 
 ### `npm start`
 
