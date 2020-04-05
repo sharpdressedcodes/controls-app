@@ -1,19 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { ControlsPage } from './ControlsPage';
+import data from '../server/data/controls.json';
 
-jest.mock('../api/getControls', () => {
-    // eslint-disable-next-line global-require
-    const data = require('../server/data/controls.json');
-
-    return jest
-        .fn()
-        .mockReturnValueOnce(Promise.resolve({ data: { } }))
-        .mockReturnValueOnce(Promise.resolve({ data: { items: data } }))
-        .mockReturnValueOnce(Promise.resolve({ data: { error: 'test' } }))
-        .mockReturnValueOnce(Promise.resolve({ data: { error: 'test' } }))
-        .mockReturnValueOnce(Promise.resolve({ data: { items: data } }));
-});
+const ERROR_MESSAGE = 'test';
+const getControls = jest
+    .fn()
+    .mockReturnValueOnce(Promise.resolve({ data: { getControls: {} } }))
+    .mockReturnValueOnce(Promise.resolve({ data: { getControls: data } }))
+    .mockReturnValueOnce(Promise.resolve({ data: { getControls: {} }, error: ERROR_MESSAGE }))
+    .mockReturnValueOnce(Promise.resolve({ data: { getControls: {} }, error: ERROR_MESSAGE }))
+    .mockReturnValueOnce(Promise.resolve({ data: { getControls: data } }));
 
 async function addWait(milliSeconds = 0) {
     return new Promise(resolve => setTimeout(resolve, milliSeconds));
@@ -21,7 +18,7 @@ async function addWait(milliSeconds = 0) {
 
 function render(props = {}) {
     // eslint-disable-next-line react/jsx-props-no-spreading
-    return shallow(<ControlsPage {...props} />);
+    return shallow(<ControlsPage getControls={getControls} {...props} />);
 }
 
 async function renderAndWait(props = {}) {
@@ -55,7 +52,7 @@ describe('components/ControlsPage', () => {
         const state = wrapper.state();
 
         expect(state.loading).toEqual(false);
-        expect(state.error).toEqual('test');
+        expect(state.error).toEqual(ERROR_MESSAGE);
 
         done();
     });
@@ -65,7 +62,7 @@ describe('components/ControlsPage', () => {
         let state = wrapper.state();
 
         expect(state.loading).toEqual(false);
-        expect(state.error).toEqual('test');
+        expect(state.error).toEqual(ERROR_MESSAGE);
 
         await wrapper.instance().onTryAgain();
         await addWait();

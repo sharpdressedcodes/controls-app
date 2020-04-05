@@ -4,7 +4,6 @@ import isEqual from 'lodash.isequal';
 import { Button, Container, Divider } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/core/styles';
-import getControls from '../api/getControls';
 import LoadingDialog from './LoadingDialog';
 import ErrorDialog from './ErrorDialog';
 import Controls from './Controls';
@@ -40,6 +39,7 @@ export class ControlsPage extends Component {
     static displayName = 'ControlsPage';
 
     static propTypes = {
+        getControls: PropTypes.func.isRequired,
         classes: PropTypes.object
     };
 
@@ -73,14 +73,18 @@ export class ControlsPage extends Component {
 
     fetchData = async () => {
         try {
+            const { getControls } = this.props;
+
             const result = await getControls();
-            const { error, items } = result.data;
+
+            const { error, data: controlsData } = result;
+            const { getControls: data } = controlsData;
 
             if (error) {
                 return void this.setState({ error, loading: false });
             }
 
-            return void this.setState({ loading: false, data: items });
+            return void this.setState({ loading: false, data });
         } catch (err) {
             return void this.setState({ error: err.message, loading: false });
         }

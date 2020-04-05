@@ -110,10 +110,10 @@ const Controls = props => {
                         );
                         break;
                     case 'polar-angle':
-                        value = values.polar_angle;
+                        value = values.polarAngle;
                         break;
                     case 'max-rabi-rate':
-                        value = values.maximum_rabi_rate;
+                        value = values.maximumRabiRate;
                         break;
                     case 'button':
                         value = <ChevronRight className={classes.chevronRight} />;
