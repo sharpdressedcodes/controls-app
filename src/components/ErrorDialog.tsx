@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
+import memoizeOne from 'memoize-one';
 import {
     Box,
     Button,
@@ -8,12 +8,13 @@ import {
     DialogTitle,
     DialogContent,
     DialogContentText,
-    IconButton
+    IconButton,
+    Theme
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
     title: {
         paddingBottom: 0
     },
@@ -69,24 +70,32 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ErrorDialog = props => {
+type ErrorDialogProps = {
+    error?: string,
+    onErrorClose: Function,
+    onTryAgain: Function
+};
+
+const ErrorDialog = (props: ErrorDialogProps) => {
     const { error, onErrorClose, onTryAgain } = props;
     const classes = useStyles();
+    const onCloseClick = memoizeOne(() => onErrorClose());
+    const onTryAgainClick = memoizeOne(() => onTryAgain());
 
     return (
         <Dialog
-            open={Boolean(error)}
-            onClose={onErrorClose}
+            open={!!error}
+            onClose={onCloseClick}
             aria-labelledby="error-modal__title"
             aria-describedby="error-modal__description"
             maxWidth={false}
-            classes={{ root: classes.root, paper: classes.paper }}
+            classes={{ paper: classes.paper }}
         >
             <DialogTitle className={classes.title}>
                 <IconButton
                     aria-label="close"
                     className={classes.closeButton}
-                    onClick={onErrorClose}
+                    onClick={onCloseClick}
                 >
                     <CloseIcon />
                 </IconButton>
@@ -107,7 +116,7 @@ const ErrorDialog = props => {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={onTryAgain}
+                        onClick={onTryAgainClick}
                         className={classes.tryAgainButton}
                         classes={{ label: classes.tryAgainButtonText }}
                     >
@@ -121,14 +130,4 @@ const ErrorDialog = props => {
 
 ErrorDialog.displayName = 'ErrorDialog';
 
-ErrorDialog.propTypes = {
-    onTryAgain: PropTypes.func.isRequired,
-    onErrorClose: PropTypes.func.isRequired,
-    error: PropTypes.string
-};
-
-ErrorDialog.defaultProps = {
-    error: null
-};
-
-export default memo(ErrorDialog);
+export default memo<ErrorDialogProps>(ErrorDialog);

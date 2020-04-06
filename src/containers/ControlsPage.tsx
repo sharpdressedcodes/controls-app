@@ -1,9 +1,11 @@
 import React, { memo } from 'react';
+import { ApolloClient } from 'apollo-client';
+import { ApolloQueryResult } from 'apollo-client/core/types';
 import { ApolloConsumer } from '@apollo/react-common';
 import { StyledControlsPage as ControlsPageComponent } from '../components/ControlsPage';
-import CONTROLS_QUERY from '../api/getControls';
+import { getControls as CONTROLS_QUERY } from '../api';
 
-const getControls = client => () => client.query({ query: CONTROLS_QUERY });
+const getControls = (client: ApolloClient<any>): Function => (): Promise<ApolloQueryResult<any>> => client.query({ query: CONTROLS_QUERY });
 
 function ControlsPage() {
     return (

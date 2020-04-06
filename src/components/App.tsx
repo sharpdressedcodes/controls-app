@@ -4,13 +4,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import ControlsPageContainer from '../containers/ControlsPage';
 import Header from './Header';
 import logo from '../assets/logo.svg';
+import { COLOUR_PAGE } from '../config/theme';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     outerContainer: {
         padding: 0
     },
     innerContainer: {
-        backgroundColor: theme.palette.page,
+        backgroundColor: COLOUR_PAGE,
         minHeight: 'calc(100vh - 97px)',
         padding: 0
     },
