@@ -1,7 +1,11 @@
 import { red } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const theme = createMuiTheme({
+export const COLOUR_CHIP: string = '#32cd32';
+export const COLOUR_PAGE: string = '#faf7fc';
+export const COLOUR_GREY_TEXT: string = '#ae9fb4';
+
+export default createMuiTheme({
     palette: {
         primary: {
             main: '#670bea'
@@ -13,12 +17,7 @@ const theme = createMuiTheme({
             main: red.A400
         },
         background: {
-            default: '#fff'
-        },
-        chip: '#32cd32',
-        page: '#faf7fc',
-        greyText: '#ae9fb4'
-    },
+            'default': '#fff'
+        }
+    }
 });
-
-export default theme;

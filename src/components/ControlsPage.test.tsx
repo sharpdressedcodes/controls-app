@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
 import { ControlsPage } from './ControlsPage';
 import data from '../server/data/controls.json';
 
@@ -12,17 +12,17 @@ const getControls = jest
     .mockReturnValueOnce(Promise.resolve({ data: { getControls: {} }, error: ERROR_MESSAGE }))
     .mockReturnValueOnce(Promise.resolve({ data: { getControls: data } }));
 
-async function addWait(milliSeconds = 0) {
+async function addWait(milliSeconds = 0): Promise<any> {
     return new Promise(resolve => setTimeout(resolve, milliSeconds));
 }
 
-function render(props = {}) {
+function render(props = {}): ShallowWrapper {
     // eslint-disable-next-line react/jsx-props-no-spreading
     return shallow(<ControlsPage getControls={getControls} {...props} />);
 }
 
-async function renderAndWait(props = {}) {
-    const wrapper = render(props);
+async function renderAndWait(props = {}): Promise<ShallowWrapper> {
+    const wrapper: ShallowWrapper = render(props);
 
     await addWait();
 
@@ -31,24 +31,24 @@ async function renderAndWait(props = {}) {
 
 describe('components/ControlsPage', () => {
     test('should see loading spinner while loading', () => {
-        const wrapper = render();
+        const wrapper: ShallowWrapper = render();
 
         expect(wrapper.state().loading).toEqual(true);
     });
 
     test('should see all controls loaded', async done => {
-        const wrapper = await renderAndWait();
+        const wrapper: ShallowWrapper = await renderAndWait();
         const state = wrapper.state();
 
         expect(state.loading).toEqual(false);
-        expect(state.error).toEqual(null);
+        expect(state.error).toEqual(void 0);
         expect(state.data).not.toEqual([]);
 
         done();
     });
 
     test('should show error when error occurs', async done => {
-        const wrapper = await renderAndWait();
+        const wrapper: ShallowWrapper = await renderAndWait();
         const state = wrapper.state();
 
         expect(state.loading).toEqual(false);
@@ -58,7 +58,7 @@ describe('components/ControlsPage', () => {
     });
 
     test('should show error when error occurs and be able to try again', async done => {
-        const wrapper = await renderAndWait();
+        const wrapper: ShallowWrapper = await renderAndWait();
         let state = wrapper.state();
 
         expect(state.loading).toEqual(false);
@@ -69,7 +69,7 @@ describe('components/ControlsPage', () => {
 
         state = wrapper.state();
 
-        expect(state.error).toEqual(null);
+        expect(state.error).toEqual(void 0);
         expect(Array.isArray(state.data)).toEqual(true);
         expect(state.data.length).not.toEqual(0);
 

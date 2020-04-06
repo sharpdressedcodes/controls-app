@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import isEqual from 'lodash.isequal';
-import { Button, Container, Divider } from '@material-ui/core';
+import isEqual from 'lodash/isEqual';
+import {
+    Button,
+    Container,
+    Divider,
+    Theme
+} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/core/styles';
 import LoadingDialog from './LoadingDialog';
 import ErrorDialog from './ErrorDialog';
 import Controls from './Controls';
 
-const useStyles = theme => ({
+const useStyles = (theme: Theme): any => ({
     titleContainer: {
         marginBottom: theme.spacing(4),
         display: 'flex',
@@ -31,23 +35,31 @@ const useStyles = theme => ({
 
 export const initialState = {
     loading: true,
-    error: null,
+    error: void 0,
     data: []
 };
 
-export class ControlsPage extends Component {
+const defaultProps = {
+    classes: {}
+};
+
+type ControlsPageProps = typeof defaultProps & {
+    classes?: any,
+    getControls: Function
+};
+
+type ControlsPageState = {
+    loading: boolean,
+    error?: string,
+    data: any[]
+};
+
+export class ControlsPage extends Component<ControlsPageProps, ControlsPageState> {
     static displayName = 'ControlsPage';
 
-    static propTypes = {
-        getControls: PropTypes.func.isRequired,
-        classes: PropTypes.object
-    };
+    static defaultProps = defaultProps;
 
-    static defaultProps = {
-        classes: {}
-    };
-
-    constructor(props) {
+    constructor(props: ControlsPageProps) {
         super(props);
 
         this.state = initialState;
@@ -57,18 +69,18 @@ export class ControlsPage extends Component {
         this.fetchData();
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
+    shouldComponentUpdate(nextProps: ControlsPageProps, nextState: ControlsPageState, nextContext: any) {
         return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
     }
 
-    onTryAgain = () => {
+    onTryAgain = (event: any): void => {
         this.setState(initialState, async () => {
             await this.fetchData();
         });
     };
 
-    onErrorClose = () => {
-        this.setState({ error: null });
+    onErrorClose = (event: any, reason: any): void => {
+        this.setState({ error: void 0 });
     };
 
     fetchData = async () => {

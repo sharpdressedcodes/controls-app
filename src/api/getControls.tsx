@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getControlsQuery = gql`
+export default gql`
     query GetControls {
         getControls {
             id
@@ -14,5 +14,3 @@ const getControlsQuery = gql`
         }
     }
 `;
-
-export default getControlsQuery;

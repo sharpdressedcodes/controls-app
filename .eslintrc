@@ -2,7 +2,8 @@
     "extends": [
         "airbnb"
     ],
-    "parser": "babel-eslint",
+    "plugins": ["@typescript-eslint"],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "sourceType": "module",
         "ecmaFeatures": {
@@ -21,15 +22,19 @@
         "sinon": true,
         "Promise": true
     },
-    "plugins": [
-        // none
-    ],
     "rules": {
         "arrow-parens": ["error", "as-needed"],
         "comma-dangle": ["error", "never"],
         "indent": ["error", 4],
+        "import/extensions": ["error", {
+            "ts": "never",
+            "tsx": "never",
+            "json": "always"
+        }],
         "import/first": 0,
         "import/newline-after-import": ["error", { "count": 1 }],
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.ts", "**/*.test.tsx"]}],
+        "import/no-unresolved": 0,
         "import/prefer-default-export": 0,
         "jsx-a11y/click-events-have-key-events": 0,
         "max-len": [
@@ -59,7 +64,7 @@
         "quotes": ["error", "single"],
         "react/destructuring-assignment": 0,
         "react/forbid-prop-types": ["error", { "forbid": ["any"] }],
-        "react/jsx-filename-extension": 0,
+         "react/jsx-filename-extension": 0,
         "react/jsx-indent": ["error", 4],
         "react/jsx-indent-props": ["error", 4],
         "react/jsx-no-target-blank": 0,

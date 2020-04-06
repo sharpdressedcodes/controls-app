@@ -8,7 +8,7 @@ import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-common';
 import App from './components/App';
 import config from './config/main';
-import theme from './theme';
+import theme from './config/theme';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 

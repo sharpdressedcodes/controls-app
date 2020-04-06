@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -12,7 +11,11 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Header = props => {
+type HeaderProps = {
+    logoPath?: string
+};
+
+const Header = (props: HeaderProps) => {
     const { logoPath } = props;
     const classes = useStyles();
 
@@ -25,12 +28,4 @@ const Header = props => {
 
 Header.displayName = 'Header';
 
-Header.propTypes = {
-    logoPath: PropTypes.string
-};
-
-Header.defaultProps = {
-    logoPath: null
-};
-
-export default memo(Header);
+export default memo<HeaderProps>(Header);

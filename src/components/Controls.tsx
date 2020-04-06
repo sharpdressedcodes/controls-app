@@ -1,10 +1,23 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
-import { Chip } from '@material-ui/core';
+import { Chip, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronRight from '@material-ui/icons/ChevronRight';
+import { COLOUR_CHIP, COLOUR_GREY_TEXT } from '../config/theme';
 
-const columns = [
+type ColumnStyleType = {
+    fontSize?: string,
+    letterSpacing?: string
+};
+
+type ColumnType = {
+    id: string,
+    label: string,
+    align?: string,
+    style?: ColumnStyleType,
+    format?: Function
+};
+
+const columns: ColumnType[] = [
     { id: 'title', label: 'Title', style: { fontSize: '18px', letterSpacing: '0.03em' } },
     { id: 'type', label: 'Type' },
     { id: 'polar-angle', label: 'Polar Angle', style: { fontSize: '16px' } },
@@ -12,7 +25,7 @@ const columns = [
     { id: 'button', label: '', align: 'right' }
 ];
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
     root: {
         width: '100%'
     },
@@ -31,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     tableHeader: {
         backgroundColor: 'transparent',
         borderBottom: '1px solid #e6e4e8',
-        color: theme.palette.greyText,
+        color: COLOUR_GREY_TEXT,
         display: 'none',
         textTransform: 'uppercase',
         padding: `${theme.spacing(3)}px 0 ${theme.spacing(3)}px ${theme.spacing(2)}px`,
@@ -63,7 +76,7 @@ const useStyles = makeStyles(theme => ({
         width: '32px'
     },
     chip: {
-        backgroundColor: theme.palette.chip,
+        backgroundColor: COLOUR_CHIP,
         borderRadius: theme.shape.borderRadius,
         color: theme.palette.common.white,
         textTransform: 'uppercase',
@@ -75,7 +88,11 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Controls = props => {
+type ControlsProps = {
+    data: any[]
+};
+
+const Controls = (props: ControlsProps) => {
     const { data } = props;
     const classes = useStyles();
 
@@ -146,8 +163,4 @@ const Controls = props => {
 
 Controls.displayName = 'Controls';
 
-Controls.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.object).isRequired
-};
-
-export default memo(Controls);
+export default memo<ControlsProps>(Controls);

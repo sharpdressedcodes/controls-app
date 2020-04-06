@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
 import {
     CircularProgress,
     Dialog,
@@ -8,16 +7,24 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => ({
     root: {},
     title: {},
     content: {
         overflow: 'hidden',
         textAlign: 'center'
     }
-});
+}));
 
-const LoadingDialog = props => {
+const defaultProps = {
+    loading: false
+};
+
+type LoadingDialogProps = {
+    loading: boolean
+} & typeof defaultProps;
+
+const LoadingDialog = (props: LoadingDialogProps) => {
     const { loading } = props;
     const classes = useStyles();
 
@@ -41,12 +48,6 @@ const LoadingDialog = props => {
 
 LoadingDialog.displayName = 'LoadingDialog';
 
-LoadingDialog.propTypes = {
-    loading: PropTypes.bool
-};
+LoadingDialog.defaultProps = defaultProps;
 
-LoadingDialog.defaultProps = {
-    loading: false
-};
-
-export default memo(LoadingDialog);
+export default memo<LoadingDialogProps>(LoadingDialog);
