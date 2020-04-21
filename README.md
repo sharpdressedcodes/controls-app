@@ -8,7 +8,7 @@ The second part, is located at [http://localhost:3000/documentation.html](http:/
 
 In the project directory, you can run:
 
-### `npm server`
+### `npm run server`
 
 Runs the API server.<br />
 Open [http://localhost:4000](http://localhost:4000), which will open a GraphQL client you can perform queries on.
